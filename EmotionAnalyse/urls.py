@@ -9,4 +9,4 @@ urlpatterns = [
     path('token/',API.token),
     path('doc/<title>',INDEX.doc)
 ]
-#handler404 = HTTP_ERROR.not_found
+handler404 = HTTP_ERROR.not_found
