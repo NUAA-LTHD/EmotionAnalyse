@@ -1,12 +1,9 @@
-from django.urls import path
-from . import HELLO
-from . import API
-from . import INDEX
+from django.urls import path,include
+from api import views as api_views
 from . import HTTP_ERROR
 urlpatterns = [
-    path('hello/',HELLO.hello),
-    path('api/',API.api),
-    path('token/',API.token),
-    path('doc/<title>',INDEX.doc)
+    path(r'api/',api_views.api),
+    path(r'token/',api_views.token),
+    path(r'index/',include("index.urls"))
 ]
 handler404 = HTTP_ERROR.not_found

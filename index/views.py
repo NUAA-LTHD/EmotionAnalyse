@@ -5,4 +5,6 @@ def doc(request,title):
     if os.path.exists(".//templates//"+file_name):
         return render(request,file_name)
     else:
-        return render(request,"404.html")
+        context=dict()
+        context['message']="抱歉，没有找到您要的文档"
+        return render(request,"404.html",context)
