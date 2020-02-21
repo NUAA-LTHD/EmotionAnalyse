@@ -1,1 +1,6 @@
-# 基于ERNIE的情绪分析记录
+# Emotion Analyse System based on ERNIE
+## MEMBER
++LiYaning
++HuangZhelong
++TangJiao
++DongXin
