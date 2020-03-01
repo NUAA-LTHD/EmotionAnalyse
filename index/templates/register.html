@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>注册</title>
+</head>
+<body>
+
+<form action="" method="post">
+    {% csrf_token %}
+    昵称：<input type="text" name="nickname" value="{{nickname}}">
+    <br>
+    用户名：<input type="text" name="username" value="{{username}}">
+    <br>
+    密码：<input type="password" name="password">
+    <br>
+    <input type="submit" value="提交">
+    {{err_msg}}
+</form>
+
+</body>
+</html>

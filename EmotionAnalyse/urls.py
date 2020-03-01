@@ -2,6 +2,7 @@ from django.urls import path,include
 from api import views as api_views
 from . import HTTP_ERROR
 from django.contrib import admin
+admin.autodiscover()
 urlpatterns = [
     path(r'api/',api_views.api),
     path(r'token/',api_views.token),
