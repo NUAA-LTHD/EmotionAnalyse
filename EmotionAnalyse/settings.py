@@ -35,14 +35,15 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+    #'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'api',
-    'index'
+    'index',
+    'login'
 ]
 
 MIDDLEWARE = [
@@ -132,3 +133,10 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
     os.path.join(BASE_DIR,'index/static'),
 ]
+
+EMAIL_USE_SSL = True
+EMAIL_HOST = 'smtp.163.com'  # 如果是 163 改成 smtp.163.com
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'heartdiary_lthd@163.com' # 帐号
+EMAIL_HOST_PASSWORD = conf.get('email','password')  # 密码
+DEFAULT_FROM_EMAIL = '心灵日记 <'+str(EMAIL_HOST_USER)+'>'

@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>登陆</title>
 </head>
 <body>
@@ -9,7 +10,7 @@
 <br>
 <form action="" method="post">
     {% csrf_token %}
-    用名：<input type="text" name="username" value="{{username}}">
+    用名名/邮箱：<input type="text" name="username" value="{{username}}">
     <br>
     密码：<input type="password" name="password">
     <br>
@@ -18,6 +19,6 @@
     <input type="submit" value="登陆">
     <br>
 </form>
-<a href="register"><button>注册</button></a>
+<a href="../register"><button>注册</button></a>
 </body>
 </html>

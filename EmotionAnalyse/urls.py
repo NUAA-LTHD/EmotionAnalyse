@@ -1,12 +1,14 @@
 from django.urls import path,include
 from api import views as api_views
-from index import views as index_views
+from login import views as login_views
 from . import views
 from . import HTTP_ERROR
-from django.contrib import admin
-admin.autodiscover()
 urlpatterns = [
     path(r'',views.index),
+    path(r'login/',login_views.login),
+    path(r'register/',login_views.register),
+    path(r'logout/',login_views.logout),
+    path(r'email/',api_views.email),
     path(r'api/',api_views.api),
     path(r'token/',api_views.token),
     path(r'index/',include("index.urls")),
