@@ -3,7 +3,9 @@ from api import views as api_views
 from login import views as login_views
 from . import views
 from . import HTTP_ERROR
+from django.contrib import admin
 urlpatterns = [
+    path(r'admin/', admin.site.urls),
     path(r'',views.index),
     path(r'login/',login_views.login),
     path(r'register/',login_views.register),

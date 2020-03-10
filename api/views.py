@@ -53,7 +53,19 @@ def token(request):
         result=json.dumps(result)
         return HttpResponse(result,content_type='application/json,charset=utf-8')
 
-
+@csrf_exempt
+def email(request):#发送验证码的视图函数
+    if request.method=='POST':
+        addr=request.POST.get('addr')
+        why=request.POST.get('why')#why表示需要验证码的原因 注册，找回密码等
+        sender=VerifyCode(why,addr)
+        response=sender.send()
+        if response==1:
+            return HttpResponse("success")
+        else:
+            return HttpResponse("fail")
+    else:
+        return render(request,"test.html")
 class VerifyCode:
     def __init__(self,why,to_addr):
         self.to_addr=to_addr
@@ -82,16 +94,3 @@ class VerifyCode:
             data.save()
         message="您的验证码为：{}，验证码5分钟有效。".format(self.verify_code)
         return send_mail(subject='验证码', message=message,from_email=None,recipient_list=[self.to_addr], fail_silently=False)
-@csrf_exempt
-def email(request):#发送验证码的视图函数
-    if request.method=='POST':
-        addr=request.POST.get('addr')
-        why=request.POST.get('why')#why表示需要验证码的原因 注册，找回密码等
-        sender=VerifyCode(why,addr)
-        response=sender.send()
-        if response==1:
-            return HttpResponse("success")
-        else:
-            return HttpResponse("fail")
-    else:
-        return render(request,"test.html")
