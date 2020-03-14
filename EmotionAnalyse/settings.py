@@ -12,12 +12,14 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 #-*- coding:UTF-8 -*-
 import os
 import configparser
+import sys
 curpath=os.path.dirname(os.path.realpath(__file__))
 cfgpath=os.path.join(curpath,"config.ini")
 conf=configparser.ConfigParser()
 conf.read(cfgpath,encoding="utf-8")
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(BASE_DIR, 'extra_apps'))
 
 
 # Quick-start development settings - unsuitable for production
@@ -43,7 +45,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api',
     'index',
-    'login'
+    'login',
+    'DjangoUeditor',
+    'blog',
+    'xadmin',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -135,8 +141,11 @@ STATICFILES_DIRS = [
 ]
 
 EMAIL_USE_SSL = True
-EMAIL_HOST = 'smtp.163.com'  # 如果是 163 改成 smtp.163.com
+EMAIL_HOST = 'smtp.163.com'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = 'heartdiary_lthd@163.com' # 帐号
 EMAIL_HOST_PASSWORD = conf.get('email','password')  # 密码
 DEFAULT_FROM_EMAIL = '心灵日记 <'+str(EMAIL_HOST_USER)+'>'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

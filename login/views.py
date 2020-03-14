@@ -5,7 +5,7 @@ from api.models import email_record
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Q
 import datetime
-from EmotionAnalyse import settings  # 为了节省代码没有重写读取ini文件的代码而是直接引入settings
+from EmotionAnalyse.settings import conf as global_conf
 import hashlib
 import time
 # 因为不习惯使用自带的用户认证机制，所以自己重写了login，logout，register
@@ -41,7 +41,6 @@ def register(request):
         data.password = password
         data.nickname = nickname
         data.email=email
-        data.register_date = datetime.datetime.now()
         data.save()  # 写入
         request.session['tip'] = "注册成功，请您登陆"
         return HttpResponseRedirect("/login")
@@ -88,7 +87,7 @@ def logout(request):
 
 class Encrypt:  # 用于加密密码
     def __init__(self):
-        conf = settings.conf
+        conf = global_conf
         self.salt = conf.get("login", "salt")
 
     def encrypt(self, str):
