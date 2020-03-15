@@ -1,7 +1,7 @@
 /*可以在这里添加你自己的cs*/
 img {
-width:30%;
- max-width: 100%; /*图片自适应宽度*/
+    width:30%;
+ max-width: 80%; /*图片自适应宽度*/
 }
 body {
  overflow-y: scroll !important;
