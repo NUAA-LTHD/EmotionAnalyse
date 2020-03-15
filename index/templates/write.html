@@ -5,12 +5,10 @@
 <head>
      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>写作</title>
+     {{ forms.media }}  {# 这里是加载djangoueditor相关的js、css文件，否则页面不显示富文本编辑器 #}
 </head>
 <body>
-{% block forms_style %}
 
-    {{ forms.media }}  {# 这里是加载djangoueditor相关的js、css文件，否则页面不显示富文本编辑器 #}
- {% endblock %}
 
 <form action="" method="post" novalidate>
         {% csrf_token %}

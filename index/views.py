@@ -5,14 +5,16 @@ from login.models import Users
 from blog.models import Article
 from DjangoUeditor.forms import UEditorField
 from django import forms
-from django.forms.models import model_to_dict
+from django.forms import widgets
+import datetime
 class DjangoueditorForm(forms.Form):
     title=forms.CharField(label='题目',min_length=1)
-    content = UEditorField( \
+    content = UEditorField(\
         "", initial="", width=800, height=200, \
-        toolbars = 'mini',\
-        imagePath = 'images/',\
-        filePath = 'files/')
+        toolbars = 'full',\
+        imagePath = 'images/{}/'.format(datetime.datetime.now().strftime("%Y-%m")),\
+        filePath = 'files/{}/'.format(datetime.datetime.now().strftime("%Y-%m")),
+        upload_settings={"imageMaxSize":10240000},)
 
 def doc(request, title):
     # TODO:doc返回404js仍然无法加载
