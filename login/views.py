@@ -1,6 +1,6 @@
 import os
 from django.shortcuts import render
-from login.models import users
+from login.models import Users
 from api.models import email_record
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Q
@@ -18,15 +18,15 @@ def register(request):
         contex['nickname'] = nickname
         contex['username'] = username
         contex['email']=email
-        response = users.objects.filter(nickname=nickname)
+        response = Users.objects.filter(nickname=nickname)
         if response.exists():  # 如果昵称已经存在
             contex['err_msg'] = "昵称已存在"
             return render(request, "register.html", contex)
-        response = users.objects.filter(username=username)
+        response = Users.objects.filter(username=username)
         if response.exists():  # 如果用户名已经存在
             contex['err_msg'] = "用户名已存在"
             return render(request, "register.html", contex)
-        response = users.objects.filter(email=email)
+        response = Users.objects.filter(email=email)
         if response.exists():  # 如果用户名已经存在
             contex['err_msg'] = "该邮箱已被注册"
             return render(request, "register.html", contex)
@@ -36,7 +36,7 @@ def register(request):
                     int(time.time())-response[0].time>300:
             contex['err_msg']="验证码无效或已过期"
             return render(request,"register.html",contex)
-        data = users()#写入数据库
+        data = Users()#写入数据库
         data.username = username
         data.password = password
         data.nickname = nickname
@@ -61,7 +61,7 @@ def login(request):
         contex = dict()
         contex['err_msg'] = "用户名或密码错误"
         contex['username'] = username
-        response = users.objects.filter(Q(username=username)|Q(email=username))
+        response = Users.objects.filter(Q(username=username)|Q(email=username))
         if not response.exists():  # 用户不存在
             return render(request, "login.html", contex)
         if response[0].password != password:  # 密码错误
@@ -110,8 +110,8 @@ class GetPostData:
     # 防止绕过前端验证，提交非法内容
     def post_lawful(self):
         if self.username is None or self.password is None \
-                or len(self.username) < 3 or len(self.username)  > 20 \
-                or len(self.password) <8 or len(self.password) > 20:
+                or len(self.username) < 3 or len(self.username)  > 30 \
+                or len(self.password) <8 or len(self.password) > 30:
             return False
         else:
             return True

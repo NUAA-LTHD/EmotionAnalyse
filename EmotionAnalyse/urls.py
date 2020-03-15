@@ -8,7 +8,7 @@ from . import HTTP_ERROR
 
 import xadmin
 urlpatterns = [
-    path(r'xadmin/', xadmin.site.urls),
+    path(r'admin/', xadmin.site.urls),
     path(r'',views.index),
     path(r'login/',login_views.login),
     path(r'register/',login_views.register),
