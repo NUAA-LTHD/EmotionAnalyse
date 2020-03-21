@@ -1,57 +1,74 @@
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
-from api.models import email_record
+from api.models import email_record,token_record
 import random
 import time
 from django.core.mail import send_mail
 from django.shortcuts import render
+import hashlib
+from django.db.models import Q
 @csrf_exempt
 def api(request):
     if request.method=="POST":
-        error_code=0
-        text_max_length=512
-        result = dict()
-        while True:
-            try:
-                data=json.loads(request.body.decode(encoding='utf-8'))
-            except Exception as err:
-                error_code=1001
-                print(err)
-                break
-            if ('token' not in data) or ('text' not in data) or (len(data)!=2):
-                error_code=1002
-                break
-            token=data['token']
-            text=data['text']
-            if len(text)>text_max_length:
-                error_code=2001
-            result['text']=text
-            break
-        result['error_code']=error_code
-        result=json.dumps(result)
-        return HttpResponse(result,content_type='application/json,charset=utf-8')
-    else:
-        result={'error_code':1003}
-        result=json.dumps(result)
-        return HttpResponse(result,content_type='application/json,charset=utf-8')
-@csrf_exempt
-def token(request):
-    if request.method=="GET":
+        data=request.POST
+        err_code,emotion=Api.deal()
         result=dict()
-        error_code=0
-        while True:
-            id=request.GET.get('id')
-            key=request.GET.get('key')
-            if id==None or key==None:
-                error_code = 1001
-                break
-            token="123"
-            result['token']=token
-            break
-        result['error_code']=error_code
+        result['err_code']=err_code
+        if err_code==0:
+            result['emotion']=emotion
+        return JsonResponse(result)
+
+class Api:
+    max_length=1024
+    def __init__(self,data):
+        self.data=data
+    def check(self):
+        data=self.data
+        token=data.get('token')
+        token_find=token_record.objects.filter(Q(token1=token)|Q(token2=token))
+        if not token_find.exists:
+            return 1001
+
+    def deal(self):
+        err_code=self.check()
+        if err_code!=0:
+            return err_code,None
+
+@csrf_exempt
+def token(self,request):
+    if request.method=="GET":
+        data=request.GET
+        err_code,token=Token(data).token()
+        result=dict()
+        result['err_code']=err_code
+        result['token']=token
         result=json.dumps(result)
         return HttpResponse(result,content_type='application/json,charset=utf-8')
+    def check(self,data):
+        pass
+class Token:
+    def __init__(self,data):
+        self.data=data
+    def check(self):
+        data=self.data
+        id=data.get('id')
+        self.id=id
+        key=data.get('key')
+        if id is None or key is None:
+            return 1001
+        return 0
+    def token(self):
+        err_code=self.check()
+        if err_code!=0:
+            return err_code,None
+        else:
+            str=self.id+time.strftime("%H ")
+            str = str.encode(encoding="utf-8")
+            str = hashlib.md5(str).hexdigest()
+            return
+
+
 
 @csrf_exempt
 def email(request):#发送验证码的视图函数
@@ -59,13 +76,17 @@ def email(request):#发送验证码的视图函数
         addr=request.POST.get('addr')
         why=request.POST.get('why')#why表示需要验证码的原因 注册，找回密码等
         sender=VerifyCode(why,addr)
-        response=sender.send()
-        if response==1:
-            return HttpResponse("success")
+        send_result=sender.send()
+        result=dict()
+        if send_result==1:
+            result['status']="success"
         else:
-            return HttpResponse("fail")
+            result['status']="fail"
+        return JsonResponse(result)
     else:
         return render(request,"test.html")
+
+
 class VerifyCode:
     def __init__(self,why,to_addr):
         self.to_addr=to_addr

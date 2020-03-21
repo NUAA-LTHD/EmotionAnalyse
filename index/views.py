@@ -23,7 +23,7 @@ def doc(request, title):
         return render(request, file_name)
     else:
         context = dict()
-        context['message'] = "抱歉，没有找到您要的文档"
+        context['err_msg'] = "你要的文档已经迷失在浩瀚的大海..."
         return render(request, "404.html", context)
 
 

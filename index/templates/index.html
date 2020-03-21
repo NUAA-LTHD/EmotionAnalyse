@@ -1,4 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Layui</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="/static/layui/layui-v2.5.6/layui/css/layui.css"  media="all">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!--layui库-->
+<STYLE type="text/css">
+#login{
+width:400px;
+height:280px;
+position:absolute;
+left: 50%;
+top: 50%;
+margin-left:-200px;
+margin-top:-140px;
+border:1px;
+align:center;
+}
+#form{
+width:300px;
+height:160px;
+position:relative;
+left:50%;
+top:50%;
+margin-left:-150px;
+margin-top:-80px;
+}
+</STYLE>
+</head>
+<body background="/static/20200108154040_bucki.jpg" >
+<ul class="layui-nav layui-bg-orange" lay-filter="">
+ <li class="layui-nav-item">
+    <img src="/static/20170310213212_GKiZ3.jpeg" class="layui-nav-img">心灵日记
+	</li>
+  <li class="layui-nav-item"><a href="/login">登录</a></li>
+  <li class="layui-nav-item"><a href="/register">注册</a></li>
+  <li class="layui-nav-item"><a href="/index">主页</a></li>
+  <li class="layui-nav-item"><a href="/index/mine">我的</a></li>
+</ul>
+
+<div id="login">
+<div id="form">
+<div align="center">
+<p><font size="10"><big>心灵日记</big></font></p>
+<p><big>记录了解你的内心</big></p>
+</div>
+<br>
+<br>
 <h1>hello {{nickname}}</h1>
 <a href="../logout"><button>登出</button></a>
 <a href="write"><button>写文章</button></a>
 <a href="mine"><button>我的文章</button></a>
+
+</div>
+</div>
+</body>
