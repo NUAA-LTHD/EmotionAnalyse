@@ -7,9 +7,7 @@
 + HuangZhelong
 + DongXin
 
-## Details
 
-+ framework:Django 3.0.2
 
 
 
