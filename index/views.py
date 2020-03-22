@@ -17,7 +17,6 @@ class DjangoueditorForm(forms.Form):
         upload_settings={"imageMaxSize":10240000},)
 
 def doc(request, title):
-    # TODO:doc返回404js仍然无法加载
     file_name = title + ".html"
     if os.path.exists(".//templates//" + file_name):
         return render(request, file_name)
