@@ -8,6 +8,7 @@ from django.core.mail import send_mail
 from django.shortcuts import render
 import hashlib
 from django.db.models import Q
+from login.models import Users
 @csrf_exempt
 def api(request):
     if request.method=="POST":
@@ -67,8 +68,10 @@ class Token:
             str = str.encode(encoding="utf-8")
             str = hashlib.md5(str).hexdigest()
             return
-
-
+@csrf_exempt
+def exists(request):#TODO:检查是否已经存在的api
+    if request.method=="POST":
+        pass
 
 @csrf_exempt
 def email(request):#发送验证码的视图函数
@@ -89,19 +92,25 @@ def email(request):#发送验证码的视图函数
 
 class VerifyCode:
     def __init__(self,why,to_addr):
+        self.why=why
         self.to_addr=to_addr
         if why=="Register":
             self.title="注册"
-        elif why=="FindPassword":
+        elif why=="Forget":
             self.title="找回密码"
-        self.verify_code=self.generate()
+
     def generate(self):
         code=''
         for i in range(6):
             code=code+str(random.randint(0,9))
         return code
     def send(self):
-        find=email_record.objects.filter(addr=self.to_addr)
+        if self.why=="Forget":
+            response=Users.objects.filter(email=self.to_addr)
+            if not response.exists():
+                return 0
+        self.verify_code = self.generate()
+        find=email_record.objects.filter(addr=self.to_addr)#如果已经发送过
         if find.exists():
             find=find[0]
             find.verify_code=self.verify_code

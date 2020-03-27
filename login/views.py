@@ -27,7 +27,7 @@ def register(request):
             contex['err_msg'] = "用户名已存在"
             return render(request, "register.html", contex)
         response = Users.objects.filter(email=email)
-        if response.exists():  # 如果用户名已经存在
+        if response.exists():  # 如果邮箱已经存在
             contex['err_msg'] = "该邮箱已被注册"
             return render(request, "register.html", contex)
         response=email_record.objects.filter(addr=email)
@@ -83,6 +83,9 @@ def logout(request):
     request.session['tip'] = "您已成功登出，请重新登陆"
     return HttpResponseRedirect('/login')
 
+def forget(request):#TODO：忘记密码
+    if request.method=="GET":
+        return render(request,"forget.html")
 
 
 class Encrypt:  # 用于加密密码

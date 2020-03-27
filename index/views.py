@@ -95,7 +95,7 @@ def mine(request):
             title=article.title
             article_dict['url']=url
             article_dict['title']=title
-            article_dict['date']=article.create_time
+            article_dict['date']=article.create_date_time
             article_list.append(article_dict)
         contex=dict()
         contex['article_list']=article_list
