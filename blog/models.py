@@ -2,7 +2,6 @@ from django.db import models
 from DjangoUeditor.models import UEditorField
 import datetime
 # Create your models here.
-
 class Article(models.Model):
     class Meta:
         db_table ='Article'
@@ -20,6 +19,8 @@ class Article(models.Model):
     depressed=models.IntegerField(default=0)
     extreme=models.IntegerField(default=0)
     top=models.BooleanField(default=False,verbose_name='置顶')
+    public=models.BooleanField(default=False,verbose_name="公开")
+    anonymous=models.BooleanField(default=True,verbose_name="匿名")
     auth=models.ForeignKey('login.Users',on_delete=models.CASCADE,verbose_name='作者',related_name='articles',null=True)
     def __str__(self):
         return u"{}".format(self.title)
