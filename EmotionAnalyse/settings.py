@@ -90,9 +90,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'emotion',
-        'USER':'root',
+        'USER':conf.get("mysql","username"),
         'PASSWORD':conf.get("mysql","password"),
-        'HOST':'localhost',
+        'HOST':conf.get("mysql","host"),
         'PORT':'3306',
     }
 }
