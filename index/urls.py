@@ -6,6 +6,6 @@ urlpatterns=[
     path(r'write/',views.write),
     path(r'view/',views.view),
     path(r'mine/',views.mine),
-    path(r'articles',views.articles),
+    path(r'articles',views.articles_repath),
     path(r'articles/<page>',views.articles)
 ]

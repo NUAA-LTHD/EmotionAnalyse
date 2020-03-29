@@ -141,3 +141,5 @@ def articles(request,page):
     else:
         session['tip'] = "您还未登陆，请先登陆"
         return HttpResponseRedirect("/login")
+def articles_repath(request):
+    return HttpResponseRedirect("../index/articles/1")
