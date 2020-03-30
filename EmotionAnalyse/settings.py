@@ -14,7 +14,7 @@ import os
 import configparser
 import sys
 curpath=os.path.dirname(os.path.realpath(__file__))
-cfgpath=os.path.join(curpath,"config.ini")
+cfgpath=os.path.join(curpath,"../conf/main.ini")
 conf=configparser.ConfigParser()
 conf.read(cfgpath,encoding="utf-8")
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
