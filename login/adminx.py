@@ -1,5 +1,7 @@
 import xadmin
 from .models import Users
+from xadmin import views
+
 class UsersAdmin(object):
     list_display=['username','nickname','available']
     search_fields = ['username', 'nickname']
@@ -10,3 +12,13 @@ class UsersAdmin(object):
     ordering=['username']#排序
     list_filter = ['available']#过滤器
 xadmin.site.register(Users,UsersAdmin)
+
+
+
+class GlobalSetting(object):
+    site_title = "心灵日记"  # 设置标题
+    site_footer = "lthd"  # 设置底部文字
+
+
+
+xadmin.site.register(views.CommAdminView, GlobalSetting)

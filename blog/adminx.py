@@ -6,7 +6,7 @@ class ArticleAdmin(object):
     list_editable=['top']
     search_fields=['title']
     readonly_fields =['create_date_time','create_date','create_time','auth','title']
-    ordering = ['-top','-create_date_time']
+    ordering = ['-create_date_time']
     date_hierarchy = ['create_date_time']
     list_filter = ['top','create_date_time']
 xadmin.site.register(Article,ArticleAdmin)

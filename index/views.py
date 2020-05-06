@@ -9,15 +9,19 @@ from django.forms import widgets
 import datetime
 class DjangoueditorForm(forms.Form):
     title=forms.CharField(label='题目',min_length=1)
-    content = UEditorField(\
-        "", initial="", width=800, height=200, \
-        toolbars = 'full',\
-        imagePath = 'images/{}/'.format(datetime.datetime.now().strftime("%Y-%m")),\
+    content = UEditorField(
+       label= "内容", width=800, height=200,
+        toolbars =  [
+                ['fullscreen', 'undo', 'redo','drafts'],#全局
+                ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch','|','imageleft','imageright', 'imagecenter','forecolor'],#格式
+                ['backcolor', 'insertorderedlist', 'insertunorderedlist', 'simpleupload', 'insertimage'],#插入
+
+        ],
+        imagePath = 'images/{}/'.format(datetime.datetime.now().strftime("%Y-%m")),
         filePath = 'files/{}/'.format(datetime.datetime.now().strftime("%Y-%m")),
         upload_settings={"imageMaxSize":10240000},)
 
 def doc(request, title):
-    # TODO:doc返回404js仍然无法加载
     file_name = title + ".html"
     if os.path.exists(".//templates//" + file_name):
         return render(request, file_name)
@@ -88,7 +92,7 @@ def mine(request):
     if 'user_id' in session:
         auth=Users.objects.filter(id=session['user_id'])
         auth=auth[0]
-        articles=auth.articles.all().order_by('-create_time')
+        articles=auth.articles.all().order_by('-create_date_time')
         article_list=list()
         for article in articles:
             article_dict=dict()
@@ -96,7 +100,7 @@ def mine(request):
             title=article.title
             article_dict['url']=url
             article_dict['title']=title
-            article_dict['date']=article.create_time
+            article_dict['date']=article.create_date_time
             article_list.append(article_dict)
         contex=dict()
         contex['article_list']=article_list
@@ -106,3 +110,36 @@ def mine(request):
     else:
         session['tip'] = "您还未登陆，请先登陆"
         return HttpResponseRedirect("/login")
+def articles(request,page):
+    session=request.session
+    if 'user_id' in session:
+        item_num=10
+        page=int(page)
+        if page is None:
+            page=1
+        start=(page-1)*item_num
+        end=start+item_num
+        contex=dict()
+        articles=Article.objects.filter(public=True).order_by('-top','-create_date_time')[start:end+1]
+        article_list = list()
+        for article in articles:
+            article_dict = dict()
+            url = "../view?id={}".format(article.id)
+            title = article.title
+            article_dict['url'] = url
+            article_dict['title'] = title
+            article_dict['date'] = article.create_date_time
+            article_dict['top']=article.top
+            if article.anonymous==True:
+                article_dict['auth']="匿名"
+            else:
+                article_dict['auth']=article.auth
+            article_list.append(article_dict)
+        contex = dict()
+        contex['article_list'] = article_list
+        return render(request,"articles.html",contex)
+    else:
+        session['tip'] = "您还未登陆，请先登陆"
+        return HttpResponseRedirect("/login")
+def articles_repath(request):
+    return HttpResponseRedirect("../index/articles/1")

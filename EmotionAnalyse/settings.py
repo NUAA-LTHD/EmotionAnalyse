@@ -14,7 +14,7 @@ import os
 import configparser
 import sys
 curpath=os.path.dirname(os.path.realpath(__file__))
-cfgpath=os.path.join(curpath,"config.ini")
+cfgpath=os.path.join(curpath,"../conf/main.ini")
 conf=configparser.ConfigParser()
 conf.read(cfgpath,encoding="utf-8")
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -90,9 +90,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'emotion',
-        'USER':'root',
+        'USER':conf.get("mysql","username"),
         'PASSWORD':conf.get("mysql","password"),
-        'HOST':'localhost',
+        'HOST':conf.get("mysql","host"),
         'PORT':'3306',
     }
 }
@@ -134,7 +134,7 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static_new')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_all')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
